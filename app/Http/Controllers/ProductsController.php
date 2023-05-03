@@ -31,6 +31,7 @@ class ProductsController extends Controller
         ];
 
         return view("products.index", ["products" => $products]);
+        //return redirect()->route("products.create");
     }
 
     /**
@@ -53,7 +54,7 @@ class ProductsController extends Controller
 
         $data = $request->all();
 
-        dd($data);
+        return redirect()->back()->with("error", "Erro ao cadastrar produto");
     }
 
     /**
@@ -61,7 +62,25 @@ class ProductsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $products = [
+            0 => [
+                "product_name" => "Produto 1",
+                "sku" => "123",
+                "description" => "Exemplo de descrição"
+            ],
+            1 => [
+                "product_name" => "Produto 2",
+                "sku" => "456",
+                "description" => "Exemplo de descrição"
+            ],
+            2 => [
+                "product_name" => "Produto 3",
+                "sku" => "789",
+                "description" => "Exemplo de descrição"
+            ]
+        ];
+
+        return view("products.show", ["product" => $products[$id]]);
     }
 
     /**
@@ -69,15 +88,36 @@ class ProductsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $products = [
+            0 => [
+                "id" => 0,
+                "product_name" => "Produto 1",
+                "sku" => "123",
+                "description" => "Exemplo de descrição"
+            ],
+            1 => [
+                "id" => 1,
+                "product_name" => "Produto 2",
+                "sku" => "456",
+                "description" => "Exemplo de descrição"
+            ],
+            2 => [
+                "id" => 2,
+                "product_name" => "Produto 3",
+                "sku" => "789",
+                "description" => "Exemplo de descrição"
+            ]
+        ];
+
+        return view("products.edit", ["product" => $products[$id]]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreOrUpdateProductsRequest $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

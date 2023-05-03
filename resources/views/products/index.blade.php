@@ -1,5 +1,7 @@
-@foreach($products as $product)
-{{$product["product_name"]}}
+@foreach($products as $row => $product)
+<a href="{{ route("products.show", $row) }}">
+    {{$product["product_name"]}}
+</a>
 <br>
 {{$product["sku"]}}
 <br>
