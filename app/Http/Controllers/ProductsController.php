@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrUpdateProductsRequest;
+use App\Models\Products;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -12,23 +13,9 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = [
-            0 => [
-                "product_name" => "Produto 1",
-                "sku" => "123",
-                "description" => "Exemplo de descrição"
-            ],
-            1 => [
-                "product_name" => "Produto 2",
-                "sku" => "456",
-                "description" => "Exemplo de descrição"
-            ],
-            2 => [
-                "product_name" => "Produto 3",
-                "sku" => "789",
-                "description" => "Exemplo de descrição"
-            ]
-        ];
+        $products = Products::select("id", "name")->where("name", "like", "Produto 2%")->get();
+
+        dd($products);
 
         return view("products.index", ["products" => $products]);
         //return redirect()->route("products.create");
