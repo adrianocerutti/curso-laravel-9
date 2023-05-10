@@ -13,9 +13,19 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Products::select("id", "name")->where("name", "like", "Produto 2%")->get();
+        //$products = Products::select("id", "name")->where("name", "like", "Produto 2%")->get();
+        $products = Products::join("brands", "products.brand_id", "=", "brands.id")
+            ->select(
+                "products.id",
+                "products.name",
+                "sku",
+                "brand_id",
+                "brands.name as brand_name"
+            )
+            ->get();
 
-        dd($products);
+        echo '<pre>', print_r(json_decode($products)), '</pre>';
+        die;
 
         return view("products.index", ["products" => $products]);
         //return redirect()->route("products.create");
@@ -73,30 +83,11 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        $products = [
-            0 => [
-                "id" => 0,
-                "product_name" => "Produto 1",
-                "sku" => "123",
-                "description" => "Exemplo de descrição"
-            ],
-            1 => [
-                "id" => 1,
-                "product_name" => "Produto 2",
-                "sku" => "456",
-                "description" => "Exemplo de descrição"
-            ],
-            2 => [
-                "id" => 2,
-                "product_name" => "Produto 3",
-                "sku" => "789",
-                "description" => "Exemplo de descrição"
-            ]
-        ];
+        $product = Products::find($id);
 
-        return view("products.edit", ["product" => $products[$id]]);
+        return view("products.edit", ["product" => $product]);
     }
 
     /**
@@ -104,7 +95,13 @@ class ProductsController extends Controller
      */
     public function update(StoreOrUpdateProductsRequest $request, string $id)
     {
-        dd($request->all());
+        $product = Products::where("id", $id)->update([
+            "name" => $request->name,
+            "sku" => $request->sku,
+            "description" => $request->description
+        ]);
+
+        dd($product);
     }
 
     /**
@@ -112,6 +109,7 @@ class ProductsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Products::where("id", $id)->delete();
+        return "Registro deletado com sucesso!";
     }
 }

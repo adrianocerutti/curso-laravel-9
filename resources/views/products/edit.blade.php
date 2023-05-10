@@ -26,11 +26,11 @@
         </div>
         @endif
 
-        <form action="{{ route("products.update", $product["id"]) }}" method="POST">
+        <form action="{{ route('products.update', $product['id']) }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="exampleInputEmail1">Nome do Produto</label>
-                <input type="text" class="form-control" name="product_name" value="{{ $product['product_name'] }}">
+                <input type="text" class="form-control" name="name" value="{{ $product['name'] }}">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Código do Produto</label>
