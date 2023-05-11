@@ -14,7 +14,7 @@ class ProductsController extends Controller
     public function index()
     {
         //$products = Products::select("id", "name")->where("name", "like", "Produto 2%")->get();
-        $products = Products::join("brands", "products.brand_id", "=", "brands.id")
+        /* $products = Products::join("brands", "products.brand_id", "=", "brands.id")
             ->select(
                 "products.id",
                 "products.name",
@@ -22,10 +22,9 @@ class ProductsController extends Controller
                 "brand_id",
                 "brands.name as brand_name"
             )
-            ->get();
+            ->get(); */
 
-        echo '<pre>', print_r(json_decode($products)), '</pre>';
-        die;
+        $products = Products::get();
 
         return view("products.index", ["products" => $products]);
         //return redirect()->route("products.create");
